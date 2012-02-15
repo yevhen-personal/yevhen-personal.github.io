@@ -7,6 +7,7 @@ categories: Fun
 ---
 
 I don't know for sure if it was a joke or not, but while investigating the source code of John Papa's recent Silverlight PDC demo, I've found some really funny (and weird :) stuff. Just take a look.
+<!-- more -->
 
 {% codeblock lang:csharp %}
 public class Core

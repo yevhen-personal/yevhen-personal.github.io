@@ -6,8 +6,8 @@ comments: true
 categories: [Silverlight, WCF]
 ---
 
-In my last article I've mentioned that the approach to asynchronous programming presented in the article could be used in any other non-Silverlight contexts. Since that time I've did a lot of small improvements to the codebase and introduced some new classes to support other common use-cases. Time to show.
-
+In my last article I've mentioned that the approach to asynchronous programming presented in the article could be used in any other non-Silverlight contexts. Since that time I've did a lot of small improvements to the codebase and introduced some new classes to support other common use-cases. 
+<!-- more -->
 ## What's new ##
 
 - Added ability to asynchronously invoke any synchronous operation
