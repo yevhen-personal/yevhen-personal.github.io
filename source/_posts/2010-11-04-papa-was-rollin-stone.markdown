@@ -12,12 +12,12 @@ I don't know for sure if it was a joke or not, but while investigating the sourc
 {% codeblock lang:csharp %}
 public class Core
 {
-	public const string StateKeyParameter = "statekey";
+    public const string StateKeyParameter = "statekey";
 
-	public static string NewKey()
-	{
-		return Guid.NewGuid().ToString().RemoveChar('-');
-	}
+    public static string NewKey()
+    {
+        return Guid.NewGuid().ToString().RemoveChar('-');
+    }
 }
 {% endcodeblock %}
 
@@ -28,16 +28,16 @@ But the actual fun started once I've recognized, that I can't recall I've ever s
 {% codeblock lang:csharp %}
 public static class StringExtensions
 {
-	public static string RemoveChar(this string text, char character)
-	{
-		string[] parts = text.Split(character);
-		var sb = new StringBuilder();
-		foreach (var part in parts)
-		{
-			sb.Append(part);
-		}
-		return sb.ToString();
-	}
+    public static string RemoveChar(this string text, char character)
+    {
+        string[] parts = text.Split(character);
+        var sb = new StringBuilder();
+        foreach (var part in parts)
+        {
+            sb.Append(part);
+        }
+        return sb.ToString();
+    }
 }
 {% endcodeblock %}
 

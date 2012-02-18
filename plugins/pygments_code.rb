@@ -33,7 +33,11 @@ module HighlightCode
     table = '<div class="highlight">'
     code = ''
     str.lines.each_with_index do |line,index|
-      code  += "<span class='line'>#{line}</span>"
+	  count = line.index('<')
+	  if (count)
+		line  = line.slice(count, line.length - count).insert(0, "&nbsp;" * count);
+	  end	
+      code  += "<span class='line'>" + line.gsub(/\s+$/, '<br />') + "</span>"
     end
     table += "<pre><code class='#{lang}'>#{code}</code></pre></div>"
   end

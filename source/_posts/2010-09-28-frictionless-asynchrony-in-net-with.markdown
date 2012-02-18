@@ -24,15 +24,15 @@ The sample application shows the scrolling ticker with the latest news from the 
 
 public class NewsFeed
 {
-   public string Download(int top)
-   {
-       string timestamp = DateTime.Now.ToString("HH:mm:ss");        
+    public string Download(int top)
+    {
+        string timestamp = DateTime.Now.ToString("HH:mm:ss");        
 
-       XElement rss = XElement.Load("http://mobile.reuters.com/reuters/rss/TOP.xml");
-       IEnumerable<XElement> titles = rss.Descendants("item").Descendants("title");
+        XElement rss = XElement.Load("http://mobile.reuters.com/reuters/rss/TOP.xml");
+        IEnumerable<XElement> titles = rss.Descendants("item").Descendants("title");
 
-       return timestamp + ":   " +  string.Join("      ",
-              titles.Take(top).Select(x => (string)x).ToArray());
+        return timestamp + ":   " +  string.Join("      ",
+                 titles.Take(top).Select(x => (string)x).ToArray());
    }
 }
 
@@ -92,7 +92,7 @@ public class WebClient : Component
 }
 
 {% endcodeblock %}
-	
+
 Remember, for synchronous WCF service interface in Silverlight we were required to create its asynchronous twin. Here we need an opposite :)
 
 {% codeblock lang:csharp %}
@@ -102,7 +102,7 @@ public interface IWebClient
     string DownloadString(Uri address);
     void DownloadFile(Uri address, string fileName);
 }
-	
+
 {% endcodeblock %}
 
 That was the fist step. The next step is to provide a special implementation of this interface derived from `AsyncCallConductor` class.
@@ -156,7 +156,7 @@ static IEnumerable<IAction> BackgroundDownload()
 
     var uri = new Uri("http://www.codeproject.com/");
     var query = new CustomAsyncQuery<WebClientConductor, IWebClient, string>
-       (conductor, client => client.DownloadString(uri));
+        (conductor, client => client.DownloadString(uri));
 
     yield return query;
 
@@ -210,7 +210,7 @@ static IEnumerable<IAction> BackgroundDownload()
     yield return Parallel.Actions(query, cmd);
 
     if (!query.Failed)
-       File.WriteAllText(@"C:\Temp\1.html", query.Result);
+        File.WriteAllText(@"C:\Temp\1.html", query.Result);
 }
 
 {% endcodeblock %}
@@ -233,27 +233,27 @@ All async actions which require dispatching inherits from the base `DispatchActi
 
 public abstract class DispatchAction : IAction
 {
-  public event EventHandler Completed;
+    public event EventHandler Completed;
 
-  readonly SynchronizationContext dispatcher = SynchronizationContext.Current;
+    readonly SynchronizationContext dispatcher = SynchronizationContext.Current;
 
-  protected internal void SignalCompleted()
-  {
-      EventHandler handler = Completed;
+    protected internal void SignalCompleted()
+    {
+        EventHandler handler = Completed;
 
-      if (handler == null)
-          return;
+        if (handler == null)
+            return;
 
-      if (dispatcher == null)
-      {
-          handler(this, EventArgs.Empty);
-          return;
-      }
+        if (dispatcher == null)
+        {
+            handler(this, EventArgs.Empty);
+            return;
+        }
 
-      dispatcher.Post(x => handler(this, EventArgs.Empty), null);
-  }
+        dispatcher.Post(x => handler(this, EventArgs.Empty), null);
+    }
 
-  public abstract void Execute();
+    public abstract void Execute();
 }
 
 {% endcodeblock %}
