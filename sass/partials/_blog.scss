@@ -139,3 +139,9 @@ article + article {
     }
   }
 }
+
+ .article-content {
+    background: $img-border bottom left repeat-x;
+    padding-bottom: 0.5em;
+    margin-bottom: 1.5em;
+ }
