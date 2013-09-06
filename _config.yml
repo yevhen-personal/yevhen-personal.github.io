@@ -98,6 +98,9 @@ delicious_count: 3
 disqus_short_name: yevhen
 disqus_show_comment_count: false
 
+# Moot Comments
+moot_name: yevhen
+
 # Google Analytics
 google_analytics_tracking_id: UA-29082616-1
 
