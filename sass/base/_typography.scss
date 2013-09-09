@@ -23,7 +23,7 @@ body > header h1 {
   font-weight: normal;
   line-height: 1.2em;
   margin-bottom: 0.6667em;
-  color: #000000;
+  color: #165b94;
 }
 body > header h2 {
   font-family: $header-subtitle-font-family;
@@ -113,8 +113,8 @@ blockquote {
   $bq-margin: 1.2em;
   font-style: italic;
   position: relative;
-  font-size: 1.2em;
-  line-height: 1.5em;
+  font-size: 1.0em;
+  line-height: 1.4em;
   padding-left: 1em;
   border-left: 4px solid rgba($text-color-light, .5);
   cite {
@@ -162,4 +162,51 @@ blockquote {
   white-space: -o-pre-wrap;
   white-space: pre-wrap;
   word-wrap: break-word;
+}
+
+@font-face {
+  font-family: 'socicons';
+  src:url('/fonts/socicons.eot');
+  src:url('/fonts/socicons.eot?#iefix') format('embedded-opentype'),
+    url('/fonts/socicons.svg#socicons') format('svg'),
+    url('/fonts/socicons.woff') format('woff'),
+    url('/fonts/socicons.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.social-links {
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.social-links li {
+  display: inline-block;
+  font-size: 0.3em;
+  text-align: center;
+}
+
+.social-links a {
+  font-family: 'socicons', sans-serif;
+  font-size: 16px;
+  line-height: 20px;
+  text-decoration: none;
+  margin-left: 0.2em;
+  margin-right: 0.2em;  
+  -webkit-font-smoothing: antialiased;
+  color: $link-color;
+  opacity: 0.7;
+}
+
+.github a:hover {
+  color: #165b94;
+}
+
+.twitter a:hover {
+  color: #165b94;
+}
+
+.linkedin a:hover {
+  color: #165b94;
 }
