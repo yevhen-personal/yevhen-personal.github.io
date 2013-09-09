@@ -1,6 +1,6 @@
 body > footer {
   @extend .sans;
-  font-size: .6em;
+  font-size: .7em;
   color: $footer-color;
   background-color: #FFFFFF;
   position: relative;
@@ -9,8 +9,5 @@ body > footer {
   margin-bottom: 3em;
   text-align: center;
   z-index: 1;
-  a {
-    @include link-colors($footer-link-color, $footer-link-color-hover, $visited: $footer-link-color);
-  }
   p:last-child { margin-bottom: 0; }
 }
