@@ -3,21 +3,18 @@ article {
   a { @extend .force-wrap; }
   header {
     position: relative;
-    padding-bottom: 1em;
+    padding-bottom: 1em;   
     margin-bottom: 1em;
     font-size: 0.6em;
     //background: $img-border bottom left repeat-x;
     h1 {
       margin: 0;
+      font-size: 3.0em;
       a { text-decoration: none;
         &:hover { text-decoration: underline; } }
     }
-    sup {
-      font-size: .3em;
-      color: $text-color-light;
-      margin: 0;
-      text-transform: uppercase;
-      top: -1.5em
+    time {
+      color: #9E9E9E;
     }
     @media only screen and (min-width: 768px) {
       margin-bottom: 1.5em;
