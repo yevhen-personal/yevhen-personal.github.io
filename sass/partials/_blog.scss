@@ -6,7 +6,6 @@ article {
     padding-bottom: 1em;   
     margin-bottom: 1em;
     font-size: 0.6em;
-    //background: $img-border bottom left repeat-x;
     h1 {
       margin: 0;
       font-size: 3.0em;
@@ -19,20 +18,17 @@ article {
     @media only screen and (min-width: 768px) {
       margin-bottom: 1.5em;
       padding-bottom: 1em;
-      //background: $img-border bottom left repeat-x;
     }
   }
   h2 {
     padding-top: 0.8em;
-    //background: $img-border top left repeat-x;
   }
-  .entry-content & h2:first-child, header + h2 { padding-top: 0; }
+  .entry-content & h2:first-child, header + h2 { padding-top: 0;  }
   h2:first-child, header + h2 { background: none; }
   .feature {
     padding-top: .5em;
     margin-bottom: 1em;
     padding-bottom: 1em;
-    //background: $img-border bottom left repeat-x;
     font-size: 2.0em; font-style: italic;
     line-height: 1.3em;
   }
@@ -77,9 +73,11 @@ article {
 }
 article + article {
   .blog-index & {
-    background: $img-border top left repeat-x;
+	//border-top: 1px solid #CCCCCC;  
+	background: $img-border top left repeat-x;
   }
 }
+
 #content .blog-index {
   padding: { top: 0; bottom: 0; }
   article header { background: none; padding-bottom: 0; }
@@ -88,19 +86,9 @@ article + article {
     a { color: inherit; &:hover { color: $link-color-hover; } }
   }
   a[rel=full-article] {
-    background: darken($main-bg, 5);
-    display: inline-block;
-    padding: .4em .8em;
-    margin-right: .5em;
-    text-decoration: none;
     color: mix($text-color, $text-color-light);
     @extend .serif;
-    @include transition(background-color .5s);
-    &:hover {
-      background: $link-color-hover;
-      text-shadow: none;
-      color: $main-bg;
-    }
+	&:hover { color: $link-color-hover; }
   }
   footer {
     @extend .sans;
@@ -117,7 +105,6 @@ article + article {
   text-align: center;
   font-size: .95em;
   position: relative;
-  //background: $img-border top left repeat-x;
   padding: {top: 1.5em; bottom: 1.5em;}
   a {
     text-decoration: none;
@@ -131,8 +118,9 @@ article + article {
   }
 }
 
- .article-content {
-    background: $img-border bottom left repeat-x;
+.article-content {
     padding-bottom: 0.5em;
     margin-bottom: 1.5em;
+	//border-bottom: 1px solid #CCCCCC;  
+    background: $img-border bottom left repeat-x;	
  }
