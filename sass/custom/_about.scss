@@ -1,0 +1,24 @@
+.about {
+	overflow: auto;
+	padding-top: 1em;
+	padding-bottom: 0em;		
+}
+
+.avatar {
+    display: inline;
+    float: left;
+    margin-right: 3%;
+    width: 30%;
+    text-align: center;
+
+    > img {
+        max-width: 100%;
+    }
+}
+
+ .author_info {
+    display: inline;
+    float: right;
+    margin-right: 0;
+    width: 67%;
+}   
