@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: WCF | Yevhen Bobrov]]></title>
+  <link href="http://yevhen-personal.github.io/categories/wcf/atom.xml" rel="self"/>
+  <link href="http://yevhen-personal.github.io/"/>
+  <updated>2014-04-26T14:25:28+03:00</updated>
+  <id>http://yevhen-personal.github.io/</id>
+  <author>
+    <name><![CDATA[Yevhen Bobrov]]></name>
+    <email><![CDATA[me@xtalion.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Frictionless WCF and Silverlight - Now for Unit Testing]]></title>
+    <link href="http://yevhen-personal.github.io/2011/05/23/frictionless-wcf-silverlight-unit-testing/"/>
+    <updated>2011-05-23T00:15:00+03:00</updated>
+    <id>http://yevhen-personal.github.io/2011/05/23/frictionless-wcf-silverlight-unit-testing</id>
+    <content type="html"><![CDATA[<p>I decided to split material on this subject and so will be publishing it in 2 parts. To not overload an articles and to finally throw something out of the door (I was having difficulties with spare time and motivation). So the first one will be for transparent asynchrony and dual mode execution and the second one will touch on advanced topics.</p>
+
+<p>The first part is already on <a href="http://www.codeproject.com/Articles/200085/Frictionless-WCF-service-consumption-in-Silverligh">CodeProject</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Frictionless asynchrony in .NET with Coroutines]]></title>
+    <link href="http://yevhen-personal.github.io/2010/09/28/frictionless-asynchrony-in-net-with/"/>
+    <updated>2010-09-28T00:15:00+03:00</updated>
+    <id>http://yevhen-personal.github.io/2010/09/28/frictionless-asynchrony-in-net-with</id>
+    <content type="html"><![CDATA[<p>In my last article I&rsquo;ve mentioned that the approach to asynchronous programming presented in the article could be used in any other non-Silverlight contexts. Since that time I&rsquo;ve did a lot of small improvements to the codebase and introduced some new classes to support other common use-cases.</p>
+
+<!-- more -->
+
+
+<h2>What&rsquo;s new</h2>
+
+<ul>
+<li>Added ability to asynchronously invoke any synchronous operation</li>
+<li>Added ability to transparently invoke APM version of synchronous method</li>
+<li>Switched dispatching to use common synchronization context</li>
+</ul>
+
+
+<p>I&rsquo;ve also included two sample applications: one is Windows Forms and another is Silverlight. In Windows Forms application I have sample code which demonstrates asynchronous polling and background downloading of web page. The former shows how to transparently call normal synchronous method asynchronously and the latter shows how to turn any non-standard (non-APM, EAP or proprietary) asynchronous operation to be compatible with the Coroutines infrastructure.</p>
+
+<h2>Asynchronous execution of synchronous methods</h2>
+
+<p>The sample application shows the scrolling ticker with the latest news from the Reuters feed. The class which fetches news is very simple (thanks to Linq to Xml):</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>public class NewsFeed
+{</p>
+
+<pre><code>public string Download(int top)
+{
+    string timestamp = DateTime.Now.ToString("HH:mm:ss");        
+
+    XElement rss = XElement.Load("http://mobile.reuters.com/reuters/rss/TOP.xml");
+    IEnumerable&lt;XElement&gt; titles = rss.Descendants("item").Descendants("title");
+
+    return timestamp + ":   " +  string.Join("      ",
+             titles.Take(top).Select(x =&gt; (string)x).ToArray());
+</code></pre>
+
+<p>   }
+}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>Here, we have normal synchronous method and we need to invoke it asynchronously. AsyncCommand / AsyncQuery<TResult> pair of classes is your friend in this situation.</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>readonly NewsFeed news = new NewsFeed();</p>
+
+<p>IEnumerable<IAction> UpdateNews()
+{</p>
+
+<pre><code>while (true)
+{
+    var query = new AsyncQuery&lt;string&gt;(() =&gt; news.Download(5));
+    yield return query;
+
+    if (!query.Failed)
+        ticker.ScrollText = query.Result;
+
+    yield return Sleep.Timeout(TimeSpan.FromSeconds(120));
+}
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>Internally, ThreadPool&rsquo;s <code>QueueUserWorkItem()</code> method is used for asynchronous execution of synchronous calls.</p>
+
+<h2>Transparent invocation of APM method pair</h2>
+
+<p>In many places in .NET framework, in addition to synchronous methods, APIs do provide their APM counterpart (<code>BeginXXX\EndXX</code> method pair). In most cases (that I&rsquo;ve inspected) they are nothing more than just an asynchronous invocation of the very same synchronous method. In such cases you can safely ignore them and just use <code>AsyncCommand / AsyncQuery&lt;TResult&gt;</code> classes to asynchronously invoke synchronous methods. But there some (very) rare cases when APM method pair may provide some internal optimizations. For such cases, for invocation you still specify the synchronous method but the APM method pair will be used instead.</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>var command = new AsyncCommand(() => instance.Method(parameter), apm: true);</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>Sometimes, all you have is only the APM method pair. As an example see <code>System.Net.WebRequest</code>. This class provides only <code>BeginGetResponse\EndGetResponse</code> APM methods but no GetResponse synchronous method. Support for such scenarios is coming. It will be something similar to <code>Observable.FromAsyncPattern</code> from Reactive Extensions.</p>
+
+<h2>Custom asynchronous patterns</h2>
+
+<p>You can make any other non-standard (non-APM) or proprietary asynchronous API to be compatible with the Coroutines infrastructure provided by Servelat Pieces. For this you&rsquo;ll need to use <code>CustomAsyncCommand / CustomAsyncQuery&lt;TResult&gt;</code> classes and you&rsquo;ll also need to implement a custom <code>AsyncCallConductor</code>. Call conductor is mediator that has a known interface, recognized by the Coroutines infrastructure.</p>
+
+<p>Let&rsquo;s see how we could turn EAP-based model to be compliant with our infrastructure. As an example I&rsquo;ll use <code>System.Net.WebClient</code> class. The WebClient&rsquo;s API so far:</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>public class WebClient : Component
+{</p>
+
+<pre><code>public void DownloadStringAsync(Uri address);
+public void DownloadFileAsync(Uri address, string fileName);
+
+public event DownloadStringCompletedEventHandler DownloadStringCompleted;
+public event AsyncCompletedEventHandler DownloadFileCompleted;
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>Remember, for synchronous WCF service interface in Silverlight we were required to create its asynchronous twin. Here we need an opposite :)</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>public interface IWebClient
+{</p>
+
+<pre><code>string DownloadString(Uri address);
+void DownloadFile(Uri address, string fileName);
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>That was the fist step. The next step is to provide a special implementation of this interface derived from <code>AsyncCallConductor</code> class.</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>public class WebClientConductor : AsyncCallConductor, IWebClient
+{</p>
+
+<pre><code>readonly WebClient client;
+
+public WebClientConductor(WebClient client)
+{
+    this.client = client;
+}
+
+public void DownloadFile(Uri address, string fileName)
+{
+    client.DownloadFileCompleted += (sender, e) =&gt;
+    {
+        Exception = e.Error;
+        Complete();
+    };
+
+    client.DownloadFileAsync(address, fileName);
+}
+
+public string DownloadString(Uri address)
+{
+    client.DownloadStringCompleted += (sender, e) =&gt;
+    {
+        Exception = e.Error;
+        Result = e.Result;
+        Complete();
+    };
+
+    client.DownloadStringAsync(address);
+
+    return null;
+ }
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>In this implementation class every interface operation is converted to the actual call. When the call is completed the implementation should signal about that, set operation result and handle any errors related to the execution. Basically it just conducts an asynchronous operation. Now you can use <code>CustomAsyncQuery</code> which knows how to conduct the call using your <code>AsyncCallConductor</code> implementation.</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>static IEnumerable<IAction> BackgroundDownload()
+{</p>
+
+<pre><code>var conductor = new WebClientConductor(new WebClient());
+
+var uri = new Uri("http://www.codeproject.com/");
+var query = new CustomAsyncQuery&lt;WebClientConductor, IWebClient, string&gt;
+    (conductor, client =&gt; client.DownloadString(uri));
+
+yield return query;
+
+File.WriteAllText(@"C:\Temp\1.html", query.Result);
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>Looks like a lot of work. Well, you&rsquo;ll need to implement your custom call conductor only once and than you can reuse it everywhere. For some of the frequently used .NET classes like <code>WebRequest</code> or <code>WebClient</code> I&rsquo;ll possibly provide conductor implementations right in the Servelat Pieces library. And as always we can hide some dirty construction code behind the Builder interface.</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>public class WebClientCallBuilder
+{</p>
+
+<pre><code>readonly Func&lt;WebClient&gt; factory;
+
+public WebClientCallBuilder(Func&lt;WebClient&gt; factory)
+{
+    this.factory = factory;
+}
+
+public CustomAsyncCommand&lt;WebClientConductor, IWebClient&gt; Command(
+    Expression&lt;Action&lt;IWebClient&gt;&gt; expression)
+{
+    return new CustomAsyncCommand&lt;WebClientConductor, IWebClient&gt;(
+        new WebClientConductor(factory()), expression);
+}
+
+public CustomAsyncQuery&lt;WebClientConductor, IWebClient, TResult&gt; Query&lt;TResult&gt;(
+    Expression&lt;Func&lt;IWebClient, TResult&gt;&gt; expression)
+{
+    return new CustomAsyncQuery&lt;WebClientConductor, IWebClient, TResult&gt;(
+        new WebClientConductor(factory()), expression);
+}
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>This will simplify client code down to this:</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>static IEnumerable<IAction> BackgroundDownload()
+{</p>
+
+<pre><code>var build = new WebClientCallBuilder(() =&gt; new WebClient());
+var uri = new Uri("http://www.codeproject.com/");
+
+var query = build.Query(client =&gt; client.DownloadString(uri));
+var cmd = build.Command(client =&gt; client.DownloadFile(uri, @"C:\Temp\2.html"));
+
+yield return Parallel.Actions(query, cmd);
+
+if (!query.Failed)
+    File.WriteAllText(@"C:\Temp\1.html", query.Result);
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<h2>Common synchronization context</h2>
+
+<p>Previously dispatching of call completion was done through the special Dispatcher class and it was required to implement specific dispatcher for each environment (WinForms, Silverlight, ASP.NET etc). But thanks to the recent Jeffrey Richter&rsquo;s article it is not required anymore. The Coroutines infrastructure provided by Servelat Pieces project should now correctly work in any environment.</p>
+
+<p>According to Jeffrey:</p>
+
+<blockquote><p>For GUI applications such as Windows Forms, Windows Presentation Foundation, and Silverlight, the threading model dictates that all UI components must be updated by the thread that created them. So, when a GUI thread calls SynchronizationContext.Current, a reference to an object that knows how to invoke the delegate on the calling GUI thread is returned.</p>
+
+<p>For ASP.NET applications, calling SynchronizationContext.Current returns a reference to an object that knows how to associates the original client request&rsquo;s identity and culture with the calling thread before invoking the delegate.</p>
+
+<p>Console and NT service applications have no threading model and therefore do not require synchronization.</p></blockquote>
+
+<p>All async actions which require dispatching inherits from the base <code>DispatchAction</code> class. As every action is (should be) created on the main thread I simply grab the synchronization context on initialization and then use it to synchronize call completion.</p>
+
+<p>{% codeblock lang:csharp %}</p>
+
+<p>public abstract class DispatchAction : IAction
+{</p>
+
+<pre><code>public event EventHandler Completed;
+
+readonly SynchronizationContext dispatcher = SynchronizationContext.Current;
+
+protected internal void SignalCompleted()
+{
+    EventHandler handler = Completed;
+
+    if (handler == null)
+        return;
+
+    if (dispatcher == null)
+    {
+        handler(this, EventArgs.Empty);
+        return;
+    }
+
+    dispatcher.Post(x =&gt; handler(this, EventArgs.Empty), null);
+}
+
+public abstract void Execute();
+</code></pre>
+
+<p>}</p>
+
+<p>{% endcodeblock %}</p>
+
+<p>That were all news for today. I&rsquo;m currently busy working on the third article in the series which is about unit testing of asynchronous code (and how Coroutines and transparent asynchrony changes the game) and hope to publish it next week. I would love to hear feedback from you on Servelat Pieces project. So if you have something to say, you&rsquo;re welcome. In particular I&rsquo;d love to hear what do you think about its usefulness, applicability to the real-world problems, usability, whether it sucks or not and so on. Cheers!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Frictionless WCF service consumption in Silverlight]]></title>
+    <link href="http://yevhen-personal.github.io/2010/09/18/frictionless-wcf-service-consumption-in-silverlight/"/>
+    <updated>2010-09-18T00:15:00+03:00</updated>
+    <id>http://yevhen-personal.github.io/2010/09/18/frictionless-wcf-service-consumption-in-silverlight</id>
+    <content type="html"><![CDATA[<p>I&rsquo;m writing series of articles on the subject. I&rsquo;ll be publishing them on CodeProject and will post any additional materials on the blog. The contents so far:</p>
+
+<ul>
+<li><a href="http://www.codeproject.com/Articles/101023/Frictionless-WCF-Service-Consumption-in-Silverligh">Part 1</a>. Consuming WCF services in Silverlight without static code generation of service proxy</li>
+<li><a href="http://www.codeproject.com/Articles/110888/Frictionless-WCF-service-consumption-in-Silverligh">Part 2</a>. Fixing &ldquo;all is async&rdquo; problem</li>
+<li><a href="http://www.codeproject.com/Articles/200085/Frictionless-WCF-service-consumption-in-Silverligh">Part 3</a>. Benefits of transparent asynchrony in respect to unit testing</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+</feed>

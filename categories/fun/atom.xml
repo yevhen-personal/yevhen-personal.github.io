@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Fun | Yevhen Bobrov]]></title>
+  <link href="http://yevhen-personal.github.io/categories/fun/atom.xml" rel="self"/>
+  <link href="http://yevhen-personal.github.io/"/>
+  <updated>2014-04-26T14:25:28+03:00</updated>
+  <id>http://yevhen-personal.github.io/</id>
+  <author>
+    <name><![CDATA[Yevhen Bobrov]]></name>
+    <email><![CDATA[me@xtalion.com]]></email>
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Papa Was a Rollin' Stone]]></title>
+    <link href="http://yevhen-personal.github.io/2010/11/04/papa-was-rollin-stone/"/>
+    <updated>2010-11-04T00:15:00+02:00</updated>
+    <id>http://yevhen-personal.github.io/2010/11/04/papa-was-rollin-stone</id>
+    <content type="html"><![CDATA[<p>I don&rsquo;t know for sure if it was a joke or not, but while investigating the source code of John Papa&rsquo;s recent Silverlight PDC demo, I&rsquo;ve found some really funny (and weird :) stuff. Just take a look.</p>
+
+<!-- more -->
+
+
+<p>{% codeblock lang:csharp %}
+public class Core
+{</p>
+
+<pre><code>public const string StateKeyParameter = "statekey";
+
+public static string NewKey()
+{
+    return Guid.NewGuid().ToString().RemoveChar('-');
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>Hmmm, this can be done more optimally. There is no need to remove hyphens from canonical string representation of <code>Guid</code>. The <code>ToString()</code> method accepts standard format specifier and according to MSDN one may just specify &ldquo;N&rdquo; in order to get <code>Guid</code> representation in the form of &ldquo;00000000000000000000000000000000&rdquo;.</p>
+
+<p>But the actual fun started once I&rsquo;ve recognized, that I can&rsquo;t recall I&rsquo;ve ever seen <code>RemoveChar</code> method before. The <code>String</code> class have no such method. The <code>RemoveChar</code> is an extension method defined as follows:</p>
+
+<p>{% codeblock lang:csharp %}
+public static class StringExtensions
+{</p>
+
+<pre><code>public static string RemoveChar(this string text, char character)
+{
+    string[] parts = text.Split(character);
+    var sb = new StringBuilder();
+    foreach (var part in parts)
+    {
+        sb.Append(part);
+    }
+    return sb.ToString();
+}
+</code></pre>
+
+<p>}
+{% endcodeblock %}</p>
+
+<p>:) hehe, funny, no?</p>
+]]></content>
+  </entry>
+  
+</feed>
