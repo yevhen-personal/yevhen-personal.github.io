@@ -2,64 +2,34 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Fun | Yevhen Bobrov]]></title>
-  <link href="http://yevhen-personal.github.io/categories/fun/atom.xml" rel="self"/>
-  <link href="http://yevhen-personal.github.io/"/>
-  <updated>2014-04-26T14:25:28+03:00</updated>
-  <id>http://yevhen-personal.github.io/</id>
+  <link href="http://blog.xtalion.com/categories/fun/atom.xml" rel="self"/>
+  <link href="http://blog.xtalion.com/"/>
+  <updated>2014-04-26T14:56:03+03:00</updated>
+  <id>http://blog.xtalion.com/</id>
   <author>
     <name><![CDATA[Yevhen Bobrov]]></name>
-    <email><![CDATA[me@xtalion.com]]></email>
+    <email><![CDATA[yevhen.bobrov@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
     <title type="html"><![CDATA[Papa Was a Rollin' Stone]]></title>
-    <link href="http://yevhen-personal.github.io/2010/11/04/papa-was-rollin-stone/"/>
+    <link href="http://blog.xtalion.com/2010/11/04/papa-was-rollin-stone/"/>
     <updated>2010-11-04T00:15:00+02:00</updated>
-    <id>http://yevhen-personal.github.io/2010/11/04/papa-was-rollin-stone</id>
+    <id>http://blog.xtalion.com/2010/11/04/papa-was-rollin-stone</id>
     <content type="html"><![CDATA[<p>I don&rsquo;t know for sure if it was a joke or not, but while investigating the source code of John Papa&rsquo;s recent Silverlight PDC demo, I&rsquo;ve found some really funny (and weird :) stuff. Just take a look.</p>
 
 <!-- more -->
 
 
-<p>{% codeblock lang:csharp %}
-public class Core
-{</p>
-
-<pre><code>public const string StateKeyParameter = "statekey";
-
-public static string NewKey()
-{
-    return Guid.NewGuid().ToString().RemoveChar('-');
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">Core</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">const</span> <span class="kt">string</span> <span class="n">StateKeyParameter</span> <span class="p">=</span> <span class="s">&quot;statekey&quot;</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="k">static</span> <span class="kt">string</span> <span class="nf">NewKey</span><span class="p">()</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> <span class="n">Guid</span><span class="p">.</span><span class="n">NewGuid</span><span class="p">().</span><span class="n">ToString</span><span class="p">().</span><span class="n">RemoveChar</span><span class="p">(</span><span class="sc">&#39;-&#39;</span><span class="p">);</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>Hmmm, this can be done more optimally. There is no need to remove hyphens from canonical string representation of <code>Guid</code>. The <code>ToString()</code> method accepts standard format specifier and according to MSDN one may just specify &ldquo;N&rdquo; in order to get <code>Guid</code> representation in the form of &ldquo;00000000000000000000000000000000&rdquo;.</p>
 
 <p>But the actual fun started once I&rsquo;ve recognized, that I can&rsquo;t recall I&rsquo;ve ever seen <code>RemoveChar</code> method before. The <code>String</code> class have no such method. The <code>RemoveChar</code> is an extension method defined as follows:</p>
 
-<p>{% codeblock lang:csharp %}
-public static class StringExtensions
-{</p>
-
-<pre><code>public static string RemoveChar(this string text, char character)
-{
-    string[] parts = text.Split(character);
-    var sb = new StringBuilder();
-    foreach (var part in parts)
-    {
-        sb.Append(part);
-    }
-    return sb.ToString();
-}
-</code></pre>
-
-<p>}
-{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="k">public</span> <span class="k">static</span> <span class="k">class</span> <span class="nc">StringExtensions</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">static</span> <span class="kt">string</span> <span class="n">RemoveChar</span><span class="p">(</span><span class="k">this</span> <span class="kt">string</span> <span class="n">text</span><span class="p">,</span> <span class="kt">char</span> <span class="n">character</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kt">string</span><span class="p">[]</span> <span class="n">parts</span> <span class="p">=</span> <span class="n">text</span><span class="p">.</span><span class="n">Split</span><span class="p">(</span><span class="n">character</span><span class="p">);</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kt">var</span> <span class="n">sb</span> <span class="p">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="p">();</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">foreach</span> <span class="p">(</span><span class="kt">var</span> <span class="n">part</span> <span class="k">in</span> <span class="n">parts</span><span class="p">)</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">sb</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="n">part</span><span class="p">);</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">}</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> <span class="n">sb</span><span class="p">.</span><span class="n">ToString</span><span class="p">();</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>:) hehe, funny, no?</p>
 ]]></content>

@@ -2,22 +2,22 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Silverlight | Yevhen Bobrov]]></title>
-  <link href="http://yevhen-personal.github.io/categories/silverlight/atom.xml" rel="self"/>
-  <link href="http://yevhen-personal.github.io/"/>
-  <updated>2014-04-26T14:25:28+03:00</updated>
-  <id>http://yevhen-personal.github.io/</id>
+  <link href="http://blog.xtalion.com/categories/silverlight/atom.xml" rel="self"/>
+  <link href="http://blog.xtalion.com/"/>
+  <updated>2014-04-26T14:56:03+03:00</updated>
+  <id>http://blog.xtalion.com/</id>
   <author>
     <name><![CDATA[Yevhen Bobrov]]></name>
-    <email><![CDATA[me@xtalion.com]]></email>
+    <email><![CDATA[yevhen.bobrov@gmail.com]]></email>
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
   
   <entry>
     <title type="html"><![CDATA[Frictionless WCF and Silverlight - Now for Unit Testing]]></title>
-    <link href="http://yevhen-personal.github.io/2011/05/23/frictionless-wcf-silverlight-unit-testing/"/>
+    <link href="http://blog.xtalion.com/2011/05/23/frictionless-wcf-silverlight-unit-testing/"/>
     <updated>2011-05-23T00:15:00+03:00</updated>
-    <id>http://yevhen-personal.github.io/2011/05/23/frictionless-wcf-silverlight-unit-testing</id>
+    <id>http://blog.xtalion.com/2011/05/23/frictionless-wcf-silverlight-unit-testing</id>
     <content type="html"><![CDATA[<p>I decided to split material on this subject and so will be publishing it in 2 parts. To not overload an articles and to finally throw something out of the door (I was having difficulties with spare time and motivation). So the first one will be for transparent asynchrony and dual mode execution and the second one will touch on advanced topics.</p>
 
 <p>The first part is already on <a href="http://www.codeproject.com/Articles/200085/Frictionless-WCF-service-consumption-in-Silverligh">CodeProject</a>.</p>
@@ -26,9 +26,9 @@
   
   <entry>
     <title type="html"><![CDATA[Frictionless asynchrony in .NET with Coroutines]]></title>
-    <link href="http://yevhen-personal.github.io/2010/09/28/frictionless-asynchrony-in-net-with/"/>
+    <link href="http://blog.xtalion.com/2010/09/28/frictionless-asynchrony-in-net-with/"/>
     <updated>2010-09-28T00:15:00+03:00</updated>
-    <id>http://yevhen-personal.github.io/2010/09/28/frictionless-asynchrony-in-net-with</id>
+    <id>http://blog.xtalion.com/2010/09/28/frictionless-asynchrony-in-net-with</id>
     <content type="html"><![CDATA[<p>In my last article I&rsquo;ve mentioned that the approach to asynchronous programming presented in the article could be used in any other non-Silverlight contexts. Since that time I&rsquo;ve did a lot of small improvements to the codebase and introduced some new classes to support other common use-cases.</p>
 
 <!-- more -->
@@ -49,51 +49,11 @@
 
 <p>The sample application shows the scrolling ticker with the latest news from the Reuters feed. The class which fetches news is very simple (thanks to Linq to Xml):</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>public class NewsFeed
-{</p>
-
-<pre><code>public string Download(int top)
-{
-    string timestamp = DateTime.Now.ToString("HH:mm:ss");        
-
-    XElement rss = XElement.Load("http://mobile.reuters.com/reuters/rss/TOP.xml");
-    IEnumerable&lt;XElement&gt; titles = rss.Descendants("item").Descendants("title");
-
-    return timestamp + ":   " +  string.Join("      ",
-             titles.Take(top).Select(x =&gt; (string)x).ToArray());
-</code></pre>
-
-<p>   }
-}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">class</span> <span class="nc">NewsFeed</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">public</span> <span class="kt">string</span> <span class="n">Download</span><span class="p">(</span><span class="kt">int</span> <span class="n">top</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kt">string</span> <span class="n">timestamp</span> <span class="p">=</span> <span class="n">DateTime</span><span class="p">.</span><span class="n">Now</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s">&quot;HH:mm:ss&quot;</span><span class="p">);</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">XElement</span> <span class="n">rss</span> <span class="p">=</span> <span class="n">XElement</span><span class="p">.</span><span class="n">Load</span><span class="p">(</span><span class="s">&quot;http://mobile.reuters.com/reuters/rss/TOP.xml&quot;</span><span class="p">);</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">IEnumerable</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">XElement</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">titles</span> <span class="p">=</span> <span class="n">rss</span><span class="p">.</span><span class="n">Descendants</span><span class="p">(</span><span class="s">&quot;item&quot;</span><span class="p">).</span><span class="n">Descendants</span><span class="p">(</span><span class="s">&quot;title&quot;</span><span class="p">);</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> <span class="n">timestamp</span> <span class="p">+</span> <span class="s">&quot;:   &quot;</span> <span class="p">+</span>  <span class="kt">string</span><span class="p">.</span><span class="n">Join</span><span class="p">(</span><span class="s">&quot;      &quot;</span><span class="p">,</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">titles</span><span class="p">.</span><span class="n">Take</span><span class="p">(</span><span class="n">top</span><span class="p">).</span><span class="n">Select</span><span class="p">(</span><span class="n">x</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="p">(</span><span class="kt">string</span><span class="p">)</span><span class="n">x</span><span class="p">).</span><span class="n">ToArray</span><span class="p">());</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span>   <span class="p">}</span><br /></span><span class='line'><span class="p">}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>Here, we have normal synchronous method and we need to invoke it asynchronously. AsyncCommand / AsyncQuery<TResult> pair of classes is your friend in this situation.</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>readonly NewsFeed news = new NewsFeed();</p>
-
-<p>IEnumerable<IAction> UpdateNews()
-{</p>
-
-<pre><code>while (true)
-{
-    var query = new AsyncQuery&lt;string&gt;(() =&gt; news.Download(5));
-    yield return query;
-
-    if (!query.Failed)
-        ticker.ScrollText = query.Result;
-
-    yield return Sleep.Timeout(TimeSpan.FromSeconds(120));
-}
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">readonly</span> <span class="n">NewsFeed</span> <span class="n">news</span> <span class="p">=</span> <span class="k">new</span> <span class="n">NewsFeed</span><span class="p">();&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IAction</span><span class="p">&gt;</span> <span class="n">UpdateNews</span><span class="p">()</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kt">var</span> <span class="n">query</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AsyncQuery</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">string</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;(()</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">news</span><span class="p">.</span><span class="n">Download</span><span class="p">(</span><span class="m">5</span><span class="p">));</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">yield</span> <span class="k">return</span> <span class="n">query</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">if</span> <span class="p">(!</span><span class="n">query</span><span class="p">.</span><span class="n">Failed</span><span class="p">)</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">ticker</span><span class="p">.</span><span class="n">ScrollText</span> <span class="p">=</span> <span class="n">query</span><span class="p">.</span><span class="n">Result</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">yield</span> <span class="k">return</span> <span class="n">Sleep</span><span class="p">.</span><span class="n">Timeout</span><span class="p">(</span><span class="n">TimeSpan</span><span class="p">.</span><span class="n">FromSeconds</span><span class="p">(</span><span class="m">120</span><span class="p">));</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>Internally, ThreadPool&rsquo;s <code>QueueUserWorkItem()</code> method is used for asynchronous execution of synchronous calls.</p>
 
@@ -101,11 +61,7 @@
 
 <p>In many places in .NET framework, in addition to synchronous methods, APIs do provide their APM counterpart (<code>BeginXXX\EndXX</code> method pair). In most cases (that I&rsquo;ve inspected) they are nothing more than just an asynchronous invocation of the very same synchronous method. In such cases you can safely ignore them and just use <code>AsyncCommand / AsyncQuery&lt;TResult&gt;</code> classes to asynchronously invoke synchronous methods. But there some (very) rare cases when APM method pair may provide some internal optimizations. For such cases, for invocation you still specify the synchronous method but the APM method pair will be used instead.</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>var command = new AsyncCommand(() => instance.Method(parameter), apm: true);</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">command</span> <span class="p">=</span> <span class="k">new</span> <span class="n">AsyncCommand</span><span class="p">(()</span> <span class="p">=&gt;</span> <span class="n">instance</span><span class="p">.</span><span class="n">Method</span><span class="p">(</span><span class="n">parameter</span><span class="p">),</span> <span class="n">apm</span><span class="p">:</span> <span class="k">true</span><span class="p">);&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>Sometimes, all you have is only the APM method pair. As an example see <code>System.Net.WebRequest</code>. This class provides only <code>BeginGetResponse\EndGetResponse</code> APM methods but no GetResponse synchronous method. Support for such scenarios is coming. It will be something similar to <code>Observable.FromAsyncPattern</code> from Reactive Extensions.</p>
 
@@ -115,158 +71,27 @@
 
 <p>Let&rsquo;s see how we could turn EAP-based model to be compliant with our infrastructure. As an example I&rsquo;ll use <code>System.Net.WebClient</code> class. The WebClient&rsquo;s API so far:</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>public class WebClient : Component
-{</p>
-
-<pre><code>public void DownloadStringAsync(Uri address);
-public void DownloadFileAsync(Uri address, string fileName);
-
-public event DownloadStringCompletedEventHandler DownloadStringCompleted;
-public event AsyncCompletedEventHandler DownloadFileCompleted;
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">class</span> <span class="nc">WebClient</span> <span class="p">:</span> <span class="n">Component</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">void</span> <span class="n">DownloadStringAsync</span><span class="p">(</span><span class="n">Uri</span> <span class="n">address</span><span class="p">);</span><br /></span><span class='line'><span class="k">public</span> <span class="k">void</span> <span class="nf">DownloadFileAsync</span><span class="p">(</span><span class="n">Uri</span> <span class="n">address</span><span class="p">,</span> <span class="kt">string</span> <span class="n">fileName</span><span class="p">);</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="k">event</span> <span class="n">DownloadStringCompletedEventHandler</span> <span class="n">DownloadStringCompleted</span><span class="p">;</span><br /></span><span class='line'><span class="k">public</span> <span class="k">event</span> <span class="n">AsyncCompletedEventHandler</span> <span class="n">DownloadFileCompleted</span><span class="p">;</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>Remember, for synchronous WCF service interface in Silverlight we were required to create its asynchronous twin. Here we need an opposite :)</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>public interface IWebClient
-{</p>
-
-<pre><code>string DownloadString(Uri address);
-void DownloadFile(Uri address, string fileName);
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">interface</span> <span class="n">IWebClient</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">string</span> <span class="n">DownloadString</span><span class="p">(</span><span class="n">Uri</span> <span class="n">address</span><span class="p">);</span><br /></span><span class='line'><span class="k">void</span> <span class="nf">DownloadFile</span><span class="p">(</span><span class="n">Uri</span> <span class="n">address</span><span class="p">,</span> <span class="kt">string</span> <span class="n">fileName</span><span class="p">);</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>That was the fist step. The next step is to provide a special implementation of this interface derived from <code>AsyncCallConductor</code> class.</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>public class WebClientConductor : AsyncCallConductor, IWebClient
-{</p>
-
-<pre><code>readonly WebClient client;
-
-public WebClientConductor(WebClient client)
-{
-    this.client = client;
-}
-
-public void DownloadFile(Uri address, string fileName)
-{
-    client.DownloadFileCompleted += (sender, e) =&gt;
-    {
-        Exception = e.Error;
-        Complete();
-    };
-
-    client.DownloadFileAsync(address, fileName);
-}
-
-public string DownloadString(Uri address)
-{
-    client.DownloadStringCompleted += (sender, e) =&gt;
-    {
-        Exception = e.Error;
-        Result = e.Result;
-        Complete();
-    };
-
-    client.DownloadStringAsync(address);
-
-    return null;
- }
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">class</span> <span class="nc">WebClientConductor</span> <span class="p">:</span> <span class="n">AsyncCallConductor</span><span class="p">,</span> <span class="n">IWebClient</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">readonly</span> <span class="n">WebClient</span> <span class="n">client</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="nf">WebClientConductor</span><span class="p">(</span><span class="n">WebClient</span> <span class="n">client</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">this</span><span class="p">.</span><span class="n">client</span> <span class="p">=</span> <span class="n">client</span><span class="p">;</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="k">void</span> <span class="nf">DownloadFile</span><span class="p">(</span><span class="n">Uri</span> <span class="n">address</span><span class="p">,</span> <span class="kt">string</span> <span class="n">fileName</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">client</span><span class="p">.</span><span class="n">DownloadFileCompleted</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">Exception</span> <span class="p">=</span> <span class="n">e</span><span class="p">.</span><span class="n">Error</span><span class="p">;</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">Complete</span><span class="p">();</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">};</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">client</span><span class="p">.</span><span class="n">DownloadFileAsync</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">fileName</span><span class="p">);</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="kt">string</span> <span class="nf">DownloadString</span><span class="p">(</span><span class="n">Uri</span> <span class="n">address</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">client</span><span class="p">.</span><span class="n">DownloadStringCompleted</span> <span class="p">+=</span> <span class="p">(</span><span class="n">sender</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">Exception</span> <span class="p">=</span> <span class="n">e</span><span class="p">.</span><span class="n">Error</span><span class="p">;</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">Result</span> <span class="p">=</span> <span class="n">e</span><span class="p">.</span><span class="n">Result</span><span class="p">;</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">Complete</span><span class="p">();</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">};</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">client</span><span class="p">.</span><span class="n">DownloadStringAsync</span><span class="p">(</span><span class="n">address</span><span class="p">);</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> <span class="k">null</span><span class="p">;</span><br /></span><span class='line'>&nbsp;<span class="p">}</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>In this implementation class every interface operation is converted to the actual call. When the call is completed the implementation should signal about that, set operation result and handle any errors related to the execution. Basically it just conducts an asynchronous operation. Now you can use <code>CustomAsyncQuery</code> which knows how to conduct the call using your <code>AsyncCallConductor</code> implementation.</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>static IEnumerable<IAction> BackgroundDownload()
-{</p>
-
-<pre><code>var conductor = new WebClientConductor(new WebClient());
-
-var uri = new Uri("http://www.codeproject.com/");
-var query = new CustomAsyncQuery&lt;WebClientConductor, IWebClient, string&gt;
-    (conductor, client =&gt; client.DownloadString(uri));
-
-yield return query;
-
-File.WriteAllText(@"C:\Temp\1.html", query.Result);
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">static</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IAction</span><span class="p">&gt;</span> <span class="n">BackgroundDownload</span><span class="p">()</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">conductor</span> <span class="p">=</span> <span class="k">new</span> <span class="n">WebClientConductor</span><span class="p">(</span><span class="k">new</span> <span class="n">WebClient</span><span class="p">());</span><br /></span><span class='line'><br /></span><span class='line'><span class="kt">var</span> <span class="n">uri</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="s">&quot;http://www.codeproject.com/&quot;</span><span class="p">);</span><br /></span><span class='line'><span class="kt">var</span> <span class="n">query</span> <span class="p">=</span> <span class="k">new</span> <span class="n">CustomAsyncQuery</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">WebClientConductor</span><span class="p">,</span> <span class="n">IWebClient</span><span class="p">,</span> <span class="kt">string</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">(</span><span class="n">conductor</span><span class="p">,</span> <span class="n">client</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">client</span><span class="p">.</span><span class="n">DownloadString</span><span class="p">(</span><span class="n">uri</span><span class="p">));</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">yield</span> <span class="k">return</span> <span class="n">query</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'><span class="n">File</span><span class="p">.</span><span class="n">WriteAllText</span><span class="p">(</span><span class="s">@&quot;C:\Temp\1.html&quot;</span><span class="p">,</span> <span class="n">query</span><span class="p">.</span><span class="n">Result</span><span class="p">);</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>Looks like a lot of work. Well, you&rsquo;ll need to implement your custom call conductor only once and than you can reuse it everywhere. For some of the frequently used .NET classes like <code>WebRequest</code> or <code>WebClient</code> I&rsquo;ll possibly provide conductor implementations right in the Servelat Pieces library. And as always we can hide some dirty construction code behind the Builder interface.</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>public class WebClientCallBuilder
-{</p>
-
-<pre><code>readonly Func&lt;WebClient&gt; factory;
-
-public WebClientCallBuilder(Func&lt;WebClient&gt; factory)
-{
-    this.factory = factory;
-}
-
-public CustomAsyncCommand&lt;WebClientConductor, IWebClient&gt; Command(
-    Expression&lt;Action&lt;IWebClient&gt;&gt; expression)
-{
-    return new CustomAsyncCommand&lt;WebClientConductor, IWebClient&gt;(
-        new WebClientConductor(factory()), expression);
-}
-
-public CustomAsyncQuery&lt;WebClientConductor, IWebClient, TResult&gt; Query&lt;TResult&gt;(
-    Expression&lt;Func&lt;IWebClient, TResult&gt;&gt; expression)
-{
-    return new CustomAsyncQuery&lt;WebClientConductor, IWebClient, TResult&gt;(
-        new WebClientConductor(factory()), expression);
-}
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">class</span> <span class="nc">WebClientCallBuilder</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">readonly</span> <span class="n">Func</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">WebClient</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">factory</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="nf">WebClientCallBuilder</span><span class="p">(</span><span class="n">Func</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">WebClient</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">factory</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">this</span><span class="p">.</span><span class="n">factory</span> <span class="p">=</span> <span class="n">factory</span><span class="p">;</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="n">CustomAsyncCommand</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">WebClientConductor</span><span class="p">,</span> <span class="n">IWebClient</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">Command</span><span class="p">(</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">Expression</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Action</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">IWebClient</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">expression</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> <span class="k">new</span> <span class="n">CustomAsyncCommand</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">WebClientConductor</span><span class="p">,</span> <span class="n">IWebClient</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;(</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">new</span> <span class="nf">WebClientConductor</span><span class="p">(</span><span class="n">factory</span><span class="p">()),</span> <span class="n">expression</span><span class="p">);</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="n">CustomAsyncQuery</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">WebClientConductor</span><span class="p">,</span> <span class="n">IWebClient</span><span class="p">,</span> <span class="n">TResult</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">Query</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">TResult</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;(</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">Expression</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">Func</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">IWebClient</span><span class="p">,</span> <span class="n">TResult</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">expression</span><span class="p">)</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span> <span class="k">new</span> <span class="n">CustomAsyncQuery</span><span class="p">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="n">WebClientConductor</span><span class="p">,</span> <span class="n">IWebClient</span><span class="p">,</span> <span class="n">TResult</span><span class="p">&amp;</span><span class="n">gt</span><span class="p">;(</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">new</span> <span class="nf">WebClientConductor</span><span class="p">(</span><span class="n">factory</span><span class="p">()),</span> <span class="n">expression</span><span class="p">);</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>This will simplify client code down to this:</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>static IEnumerable<IAction> BackgroundDownload()
-{</p>
-
-<pre><code>var build = new WebClientCallBuilder(() =&gt; new WebClient());
-var uri = new Uri("http://www.codeproject.com/");
-
-var query = build.Query(client =&gt; client.DownloadString(uri));
-var cmd = build.Command(client =&gt; client.DownloadFile(uri, @"C:\Temp\2.html"));
-
-yield return Parallel.Actions(query, cmd);
-
-if (!query.Failed)
-    File.WriteAllText(@"C:\Temp\1.html", query.Result);
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">static</span> <span class="n">IEnumerable</span><span class="p">&lt;</span><span class="n">IAction</span><span class="p">&gt;</span> <span class="n">BackgroundDownload</span><span class="p">()</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="kt">var</span> <span class="n">build</span> <span class="p">=</span> <span class="k">new</span> <span class="n">WebClientCallBuilder</span><span class="p">(()</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="k">new</span> <span class="n">WebClient</span><span class="p">());</span><br /></span><span class='line'><span class="kt">var</span> <span class="n">uri</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Uri</span><span class="p">(</span><span class="s">&quot;http://www.codeproject.com/&quot;</span><span class="p">);</span><br /></span><span class='line'><br /></span><span class='line'><span class="kt">var</span> <span class="n">query</span> <span class="p">=</span> <span class="n">build</span><span class="p">.</span><span class="n">Query</span><span class="p">(</span><span class="n">client</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">client</span><span class="p">.</span><span class="n">DownloadString</span><span class="p">(</span><span class="n">uri</span><span class="p">));</span><br /></span><span class='line'><span class="kt">var</span> <span class="n">cmd</span> <span class="p">=</span> <span class="n">build</span><span class="p">.</span><span class="n">Command</span><span class="p">(</span><span class="n">client</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">client</span><span class="p">.</span><span class="n">DownloadFile</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="s">@&quot;C:\Temp\2.html&quot;</span><span class="p">));</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">yield</span> <span class="k">return</span> <span class="n">Parallel</span><span class="p">.</span><span class="n">Actions</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">cmd</span><span class="p">);</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">if</span> <span class="p">(!</span><span class="n">query</span><span class="p">.</span><span class="n">Failed</span><span class="p">)</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">File</span><span class="p">.</span><span class="n">WriteAllText</span><span class="p">(</span><span class="s">@&quot;C:\Temp\1.html&quot;</span><span class="p">,</span> <span class="n">query</span><span class="p">.</span><span class="n">Result</span><span class="p">);</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <h2>Common synchronization context</h2>
 
@@ -282,37 +107,7 @@ if (!query.Failed)
 
 <p>All async actions which require dispatching inherits from the base <code>DispatchAction</code> class. As every action is (should be) created on the main thread I simply grab the synchronization context on initialization and then use it to synchronize call completion.</p>
 
-<p>{% codeblock lang:csharp %}</p>
-
-<p>public abstract class DispatchAction : IAction
-{</p>
-
-<pre><code>public event EventHandler Completed;
-
-readonly SynchronizationContext dispatcher = SynchronizationContext.Current;
-
-protected internal void SignalCompleted()
-{
-    EventHandler handler = Completed;
-
-    if (handler == null)
-        return;
-
-    if (dispatcher == null)
-    {
-        handler(this, EventArgs.Empty);
-        return;
-    }
-
-    dispatcher.Post(x =&gt; handler(this, EventArgs.Empty), null);
-}
-
-public abstract void Execute();
-</code></pre>
-
-<p>}</p>
-
-<p>{% endcodeblock %}</p>
+<p><div class='bogus-wrapper'><notextile><figure class='code'> <div class="highlight"><pre><code class='csharp'><span class='line'><span class="p">&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">DispatchAction</span> <span class="p">:</span> <span class="n">IAction</span><br /></span><span class='line'><span class="p">{&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">pre</span><span class="p">&gt;&lt;</span><span class="n">code</span><span class="p">&gt;</span><span class="k">public</span> <span class="k">event</span> <span class="n">EventHandler</span> <span class="n">Completed</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">readonly</span> <span class="n">SynchronizationContext</span> <span class="n">dispatcher</span> <span class="p">=</span> <span class="n">SynchronizationContext</span><span class="p">.</span><span class="n">Current</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">protected</span> <span class="k">internal</span> <span class="k">void</span> <span class="nf">SignalCompleted</span><span class="p">()</span><br /></span><span class='line'><span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">EventHandler</span> <span class="n">handler</span> <span class="p">=</span> <span class="n">Completed</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">if</span> <span class="p">(</span><span class="n">handler</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span><span class="p">;</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">if</span> <span class="p">(</span><span class="n">dispatcher</span> <span class="p">==</span> <span class="k">null</span><span class="p">)</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">{</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">handler</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">EventArgs</span><span class="p">.</span><span class="n">Empty</span><span class="p">);</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="k">return</span><span class="p">;</span><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="p">}</span><br /></span><span class='line'><br /></span><span class='line'>&nbsp;&nbsp;&nbsp;&nbsp;<span class="n">dispatcher</span><span class="p">.</span><span class="n">Post</span><span class="p">(</span><span class="n">x</span> <span class="p">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">handler</span><span class="p">(</span><span class="k">this</span><span class="p">,</span> <span class="n">EventArgs</span><span class="p">.</span><span class="n">Empty</span><span class="p">),</span> <span class="k">null</span><span class="p">);</span><br /></span><span class='line'><span class="p">}</span><br /></span><span class='line'><br /></span><span class='line'><span class="k">public</span> <span class="k">abstract</span> <span class="k">void</span> <span class="nf">Execute</span><span class="p">();</span><br /></span><span class='line'><span class="p">&lt;/</span><span class="n">code</span><span class="p">&gt;&lt;/</span><span class="n">pre</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;}&lt;/</span><span class="n">p</span><span class="p">&gt;</span><br /></span><span class='line'><br /></span><span class='line'><span class="p">&lt;</span><span class="n">p</span><span class="p">&gt;</span><br /></span></code></pre></div></figure></notextile></div></p>
 
 <p>That were all news for today. I&rsquo;m currently busy working on the third article in the series which is about unit testing of asynchronous code (and how Coroutines and transparent asynchrony changes the game) and hope to publish it next week. I would love to hear feedback from you on Servelat Pieces project. So if you have something to say, you&rsquo;re welcome. In particular I&rsquo;d love to hear what do you think about its usefulness, applicability to the real-world problems, usability, whether it sucks or not and so on. Cheers!</p>
 ]]></content>
@@ -320,9 +115,9 @@ public abstract void Execute();
   
   <entry>
     <title type="html"><![CDATA[Frictionless WCF service consumption in Silverlight]]></title>
-    <link href="http://yevhen-personal.github.io/2010/09/18/frictionless-wcf-service-consumption-in-silverlight/"/>
+    <link href="http://blog.xtalion.com/2010/09/18/frictionless-wcf-service-consumption-in-silverlight/"/>
     <updated>2010-09-18T00:15:00+03:00</updated>
-    <id>http://yevhen-personal.github.io/2010/09/18/frictionless-wcf-service-consumption-in-silverlight</id>
+    <id>http://blog.xtalion.com/2010/09/18/frictionless-wcf-service-consumption-in-silverlight</id>
     <content type="html"><![CDATA[<p>I&rsquo;m writing series of articles on the subject. I&rsquo;ll be publishing them on CodeProject and will post any additional materials on the blog. The contents so far:</p>
 
 <ul>
