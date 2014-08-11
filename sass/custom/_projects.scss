@@ -4,7 +4,7 @@
     width: 100%;
 
     .project {
-    	overflow: auto;
+    	overflow: hidden;
     	padding-top: 1em;
     	padding-bottom: 0em;
 
@@ -22,7 +22,8 @@
     		}
 
     		> a > img {
-    			max-width: 100%;
+    			max-width: 70%;
+                max-height: 70%;
     		}
 		}
 
@@ -31,6 +32,7 @@
     		float: right;
     		margin-right: 0;
     		width: 74%;
+            vertical-align: middle;
 		}			
 	}
 }
