@@ -1,25 +1,17 @@
 .about {
-	overflow: auto;
-	padding-top: 1em;
-	padding-bottom: 0em;		
+	padding-bottom: 0em;
 }
 
 .avatar {
-    display: inline;
-    float: left;
-    margin-right: 0%;
-    width: 30%;
     text-align: center;
-
     > img {
-        max-width: 80%;
-        border-radius: 160px;
+        border-radius: 120px;
     }
 }
 
- .author_info {
-    display: inline;
-    float: right;
-    margin-right: 10px;
-    width: 67%;
+ .author_info {    
+    clear: both;
+    padding-top: 1em;
+    width: 80%;
+    padding-left: 13%; 
 }   
