@@ -3,8 +3,7 @@ article {
   a { @extend .force-wrap; }
   header {
     position: relative;
-    padding-bottom: 1em;   
-    margin-bottom: 1em;
+    padding-bottom: 0.2em;   
     font-size: 0.6em;
     h1 {
       margin: 0;
@@ -16,8 +15,7 @@ article {
       color: #9E9E9E;
     }
     @media only screen and (min-width: 768px) {
-      margin-bottom: 1.5em;
-      padding-bottom: 1em;
+      padding-bottom: 1.5em;
     }
   }
   h2 {
@@ -73,8 +71,8 @@ article {
 }
 article + article {
   .blog-index & {
-	//border-top: 1px solid #CCCCCC;  
-	background: $img-border top left repeat-x;
+	//border-top: 1px solid #CCCCCC;  	
+   margin-top: 1em;
   }
 }
 
@@ -83,6 +81,7 @@ article + article {
   article header { background: none; padding-bottom: 0; }
   article h1 {
     font-size: 2.2em;
+    margin-bottom: 0.3em;
     a { color: inherit; &:hover { color: $link-color-hover; } }
   }
   a[rel=full-article] {
@@ -119,8 +118,4 @@ article + article {
 }
 
 .article-content {
-    padding-bottom: 0.5em;
-    margin-bottom: 1.5em;
-	//border-bottom: 1px solid #CCCCCC;  
-    background: $img-border bottom left repeat-x;	
- }
+}

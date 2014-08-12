@@ -10,7 +10,6 @@
         margin-right: 10px;
 
     	.logo {
-    		display: inline;
     		float: left;
     		margin-right: 3%;
     		width: 22%;
@@ -29,15 +28,13 @@
 		}
 
 		 .info {
-    		display: inline;
     		float: right;
     		margin-right: 0;
     		width: 74%;
-            vertical-align: middle;
 		}			
 	}
 }
 
 .project + .project {
-	background: $img-border top left repeat-x;
+	margin-bottom: 1.5em;
 }
